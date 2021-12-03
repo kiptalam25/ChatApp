@@ -37,7 +37,7 @@ public class FirebaseLoginInstance {
         final MutableLiveData<Boolean> successTokenUpdate = new MutableLiveData<>();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://chatapp-54ca6-default-rtdb.firebaseio.com").getReference("Tokens");
         Token token = new Token(newToken);
         assert firebaseUser != null;
         reference.child(firebaseUser.getUid()).setValue(token);

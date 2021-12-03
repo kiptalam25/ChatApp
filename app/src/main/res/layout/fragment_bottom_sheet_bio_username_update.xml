@@ -21,13 +21,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/background_edit_text"
+                android:clickable="true"
+                android:contextClickable="true"
+                android:focusable="true"
+                android:focusedByDefault="true"
                 android:hint="@string/your_text_here"
                 android:padding="10dp"
-                android:textSize="15sp"
-                android:focusedByDefault="true"
-                android:focusable="true"
-                android:clickable="true"
-                android:contextClickable="true" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/btn_save_bottom_sheet"

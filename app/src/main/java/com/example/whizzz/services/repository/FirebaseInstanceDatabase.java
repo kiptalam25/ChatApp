@@ -10,6 +10,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.whizzz.services.model.Chats;
+import com.example.whizzz.services.model.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -29,7 +31,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class FirebaseInstanceDatabase {
-        private FirebaseDatabase instance = FirebaseDatabase.getInstance();
+        private FirebaseDatabase instance = FirebaseDatabase.getInstance("https://chatapp-54ca6-default-rtdb.firebaseio.com");
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
@@ -87,7 +89,7 @@ public class FirebaseInstanceDatabase {
     public MutableLiveData<DatabaseReference> getTokenRef() {
         final MutableLiveData<DatabaseReference> getTokenReference = new MutableLiveData<>();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        DatabaseReference reference = instance.getReference("Tokens");
         getTokenReference.setValue(reference);
 
 
@@ -259,7 +261,7 @@ public class FirebaseInstanceDatabase {
 
     public MutableLiveData<Boolean> addImageUrlInDatabase(String imageUrl, Object mUri) {
         final MutableLiveData<Boolean> successAddUriImage = new MutableLiveData<>();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        DatabaseReference reference = instance.getReference("Users").child(firebaseUser.getUid());
         HashMap<String, Object> map = new HashMap<>();
         map.put(imageUrl, mUri);
         reference.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -280,7 +282,7 @@ public class FirebaseInstanceDatabase {
 
     public MutableLiveData<Boolean> addUsernameInDatabase(String usernameUpdated, Object username) {
         final MutableLiveData<Boolean> successAddUserName = new MutableLiveData<>();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        DatabaseReference reference = instance.getReference("Users").child(firebaseUser.getUid());
         HashMap<String, Object> map = new HashMap<>();
         map.put(usernameUpdated, username);
         String searchUserNam = username.toString().toLowerCase();       // changing search userName as well
@@ -302,7 +304,7 @@ public class FirebaseInstanceDatabase {
 
     public MutableLiveData<Boolean> addBioInDatabase(String bioUpdated, Object bio) {
         final MutableLiveData<Boolean> successAddBio = new MutableLiveData<>();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        DatabaseReference reference = instance.getReference("Users").child(firebaseUser.getUid());
         HashMap<String, Object> map = new HashMap<>();
         map.put(bioUpdated, bio);
         reference.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -324,7 +326,10 @@ public class FirebaseInstanceDatabase {
         final MutableLiveData<Boolean> successAddStatus = new MutableLiveData<>();
         String id=firebaseUser.getUid();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+//        FirebaseDatabase db=FirebaseDatabase.getInstance();
+//        databaseReference=db.getReference(Users.class.getSimpleName());/
+        DatabaseReference ref= instance.getReference(Users.class.getSimpleName());
+
         HashMap<String, Object> map = new HashMap<>();
         map.put(statusUpdated, status);
 
@@ -361,7 +366,7 @@ public class FirebaseInstanceDatabase {
         hashMap.put("status", "offline");
         hashMap.put("search", userName.toLowerCase());
 
-        instance.getReference("Users").child(userId).setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        instance.getReference(Users.class.getSimpleName()).child(userId).setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 successAddUserDb.setValue(true);

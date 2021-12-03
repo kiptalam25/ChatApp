@@ -20,6 +20,7 @@ import com.example.whizzz.R;
 import com.example.whizzz.services.model.Users;
 import com.example.whizzz.view.adapters.ViewPagerAdapter;
 import com.example.whizzz.view.fragments.ChatFragment;
+import com.example.whizzz.view.fragments.MyFragment;
 import com.example.whizzz.view.fragments.ProfileFragment;
 import com.example.whizzz.view.fragments.UserFragment;
 import com.example.whizzz.viewModel.DatabaseViewModel;
@@ -63,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new ChatFragment(this), "Chats");
         viewPagerAdapter.addFragment(new UserFragment(this), "Users");
         viewPagerAdapter.addFragment(new ProfileFragment(this), "Profile");
+        viewPagerAdapter.addFragment(new MyFragment(this),"MyFragment");
 
         viewPager.setAdapter(viewPagerAdapter);
 
